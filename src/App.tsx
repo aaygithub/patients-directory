@@ -1,8 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { getPatients } from "./service/patient";
+import { IPatient } from "./common/interfaces";
 
 function App() {
+  useEffect(() => {
+    getPatients().then((response: IPatient[]) => {
+      console.log(response); // test mock-api response
+    });
+  });
+
   return (
     <div className="App">
       <header className="App-header">
