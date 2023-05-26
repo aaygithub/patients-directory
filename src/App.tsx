@@ -1,34 +1,32 @@
-import React, { useEffect } from "react";
-import logo from "./logo.svg";
+import React from "react";
 import "./App.css";
-import { getPatients } from "./service/patient";
-import { IPatient } from "./common/interfaces";
+import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
 
-function App() {
-  useEffect(() => {
-    getPatients().then((response: IPatient[]) => {
-      console.log(response); // test mock-api response
-    });
-  });
+import { AppBar, Container, Toolbar, Typography } from "@mui/material";
 
+import { PatientsManager } from "./pages/patients/Patients";
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <AppBar position="static">
+          <Toolbar>
+            <Link to={"/"} style={{ textDecoration: "none", color: "#FFF" }}>
+              <Typography variant="h6">Patient Directory</Typography>
+            </Link>
+          </Toolbar>
+        </AppBar>
+        <Container>
+          <Routes>
+            {/* <Route path="/" element={<Home />}></Route> */}
+            <Route path="patients" element={<PatientsManager />}></Route>
+            <Route path="*" element={<Navigate to="/patients" replace />} />
+          </Routes>
+        </Container>
+      </BrowserRouter>
+    </>
   );
-}
+};
 
 export default App;
