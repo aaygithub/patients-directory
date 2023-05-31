@@ -25,7 +25,10 @@ export const TableHeadCell: React.FC<ITableHeadCell> = ({
       <TableHeadCellStyled
         className={active ? "active-sorting" : ""}
         onClick={() => {
-          setSorting(valueKey, !sortByAs || sortByAs === "des" ? "asc" : "des");
+          setSorting(
+            valueKey,
+            !active || !sortByAs || sortByAs === "des" ? "asc" : "des"
+          );
         }}
       >
         <span>

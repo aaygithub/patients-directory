@@ -6,13 +6,13 @@ import { AppBar, Container, Toolbar, Typography } from "@mui/material";
 
 import { PatientsManager } from "./pages/patients/Patients";
 import { PatientDetails } from "./pages/patients/Patient";
-import PatientDataContext from "./context/patientDataContext";
+import PatientDataProvider from "./context/patientDataContext";
 import styled from "@emotion/styled";
 
 const App: React.FC = () => {
   return (
     <>
-      <PatientDataContext>
+      <PatientDataProvider>
         <BrowserRouter>
           <AppBarStyled position="static">
             <Toolbar>
@@ -31,7 +31,7 @@ const App: React.FC = () => {
             </Routes>
           </Container>
         </BrowserRouter>
-      </PatientDataContext>
+      </PatientDataProvider>
     </>
   );
 };

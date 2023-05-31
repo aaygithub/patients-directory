@@ -9,24 +9,20 @@ import {
 } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
-import { IFilterData } from "../../common/interfaces";
+import { ISearchFilterContextType } from "../../common/interfaces";
+import { SearchFilterContext } from "../../context/searchFilterContext";
+import React from "react";
 
-export interface IFilterProps {
-  onFilterChange: (filterData: IFilterData) => void;
-}
+export interface IFilterProps {}
 
-export const Filter = ({ onFilterChange }: IFilterProps) => {
-  const [filterData, setFilterData] = useState<IFilterData>({
-    searchText: "",
-    ageRange: "",
-    gender: "",
-  });
+export const Filter: React.FC<IFilterProps> = () => {
+  const { searchFilter, updateSearchFilter } = React.useContext(
+    SearchFilterContext
+  ) as ISearchFilterContextType;
 
   const filterChangeHandler = (field: string, value: string) => {
-    const updatedFilter = { ...filterData, [field]: value };
-    setFilterData(updatedFilter);
-    onFilterChange(updatedFilter);
+    const updatedFilter = { ...searchFilter, [field]: value };
+    updateSearchFilter(updatedFilter);
   };
 
   return (
@@ -36,7 +32,7 @@ export const Filter = ({ onFilterChange }: IFilterProps) => {
         <OutlinedInput
           id="text-search-input"
           type={"text"}
-          value={filterData.searchText}
+          value={searchFilter?.searchText ?? ""}
           placeholder="Start typing..."
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             filterChangeHandler("searchText", event.target.value);
@@ -58,7 +54,7 @@ export const Filter = ({ onFilterChange }: IFilterProps) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={filterData.ageRange}
+          value={searchFilter.ageRange}
           label="Age"
           onChange={(event) => {
             filterChangeHandler("ageRange", event.target.value);
@@ -77,7 +73,7 @@ export const Filter = ({ onFilterChange }: IFilterProps) => {
         <Select
           labelId="gender-select-label"
           id="gender-select"
-          value={filterData.gender}
+          value={searchFilter.gender}
           label="Age"
           onChange={(event) => {
             filterChangeHandler("gender", event.target.value);
