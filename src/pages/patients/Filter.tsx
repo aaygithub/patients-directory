@@ -10,15 +10,10 @@ import {
 
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
+import { IFilterData } from "../../common/interfaces";
 
-interface IFilterProps {
+export interface IFilterProps {
   onFilterChange: (filterData: IFilterData) => void;
-}
-
-export interface IFilterData {
-  searchText?: string;
-  ageRange?: string;
-  gender?: string;
 }
 
 export const Filter = ({ onFilterChange }: IFilterProps) => {
