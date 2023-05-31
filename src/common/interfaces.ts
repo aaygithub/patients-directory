@@ -1,3 +1,5 @@
+import { TOrder } from "../components/TableHeadCell";
+
 export interface IPatient {
   patient_id: number;
   first_name: string;
@@ -27,4 +29,11 @@ export interface IFilterData {
 export interface ISearchFilterContextType {
   searchFilter: IFilterData;
   updateSearchFilter: (searchFilter: IFilterData) => void;
+  columnSort: IColumnSort;
+  updateColumnSort: (columnSort: IColumnSort) => void;
+}
+
+export interface IColumnSort {
+  sortBy?: string;
+  sortAs?: TOrder;
 }

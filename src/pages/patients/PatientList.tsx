@@ -1,5 +1,4 @@
 import {
-  Button,
   Paper,
   Skeleton,
   Table,
@@ -8,25 +7,22 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
 
 import styled from "@emotion/styled";
 
-import VisibilityIcon from "@mui/icons-material/Visibility";
-
 import { useEffect, useState } from "react";
 import {
-  IFilterData,
   IPatient,
   IPatientDataContextType,
+  ISearchFilterContextType,
 } from "../../common/interfaces";
-import { HighLightText } from "../../components/HighLightText";
-import { TableHeadCell, TOrder } from "../../components/TableHeadCell";
 import { Filter } from "./Filter";
 import { PatientDataContext } from "../../context/patientDataContext";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { SearchFilterContext } from "../../context/searchFilterContext";
+import { PatientTable } from "./PatientTable";
+import { TOrder } from "../../components/TableHeadCell";
 
 interface IPatientListProps {}
 
@@ -34,16 +30,22 @@ type sortArg<T> = keyof T;
 
 export const PatientList: React.FC<IPatientListProps> = () => {
   const [patientsFiltered, setPatientsFiltered] = useState<IPatient[]>();
+  const [patientsFilteredSorted, setPatientsFilteredSorted] =
+    useState<IPatient[]>();
 
   const [searchTextHighLight, setSearchTextHighLight] = useState<string>("");
-  const [sortByColumn, setSortByColumn] = useState<string>();
-  const [sortByAs, setSortByAs] = useState<TOrder>();
+
+  const { searchFilter, columnSort } = React.useContext(
+    SearchFilterContext
+  ) as ISearchFilterContextType;
 
   const { patientsListLoading, patientsList } = React.useContext(
     PatientDataContext
   ) as IPatientDataContextType;
 
-  const onFilterChange = ({ searchText, ageRange, gender }: IFilterData) => {
+  const onFilterChange = () => {
+    console.log("inside filter change");
+    const { searchText, ageRange, gender } = searchFilter;
     let filteredPatients: IPatient[] = patientsList ? [...patientsList] : [];
     if (!searchText && !ageRange && !gender) {
       setPatientsFiltered(filteredPatients);
@@ -89,24 +91,21 @@ export const PatientList: React.FC<IPatientListProps> = () => {
     setPatientsFiltered(filteredPatients);
   };
 
-  const navigate = useNavigate();
-
-  const setSorting = (sortBy: string, sortAs: TOrder) => {
-    let patientsArr = patientsFiltered ? [...patientsFiltered] : [];
+  const setSorting = () => {
+    const { sortBy, sortAs } = columnSort;
+    let patientsArr: IPatient[] = patientsFiltered ? [...patientsFiltered] : [];
 
     type ObjectKey = keyof (typeof patientsArr)[0];
     const formDataKey = sortBy as ObjectKey;
     patientsArr.sort(sortbyPropertiesOf<IPatient>(formDataKey, sortAs));
-    setPatientsFiltered(patientsArr);
-    setSortByAs(sortAs);
-    setSortByColumn(sortBy);
+    setPatientsFilteredSorted(patientsArr);
   };
 
   const sortbyPropertiesOf = <T extends object>(
     sortBy: sortArg<T>,
-    sortAs: TOrder
+    sortAs?: TOrder
   ) => {
-    function compareByProperty(arg: sortArg<T>, sortAs: TOrder) {
+    function compareByProperty(arg: sortArg<T>, sortAs?: TOrder) {
       let key: keyof T;
       let sortOrder = 1;
       if (typeof arg === "string" && sortAs === "des") {
@@ -132,12 +131,18 @@ export const PatientList: React.FC<IPatientListProps> = () => {
     patientsList && setPatientsFiltered(patientsList);
   }, [patientsList]);
 
-  console.log(" patientsFiltered :::", patientsFiltered);
-  console.log(" patientsListLoading :::", patientsListLoading);
+  useEffect(() => {
+    console.log("getFilter change ::: st start on back");
+    onFilterChange();
+  }, [searchFilter]);
+
+  useEffect(() => {
+    setSorting();
+  }, [columnSort, patientsFiltered]);
 
   return (
     <>
-      <Filter onFilterChange={onFilterChange} />
+      <Filter />
       <>
         {patientsListLoading && (
           <LoadingSectionStyled>
@@ -190,138 +195,14 @@ export const PatientList: React.FC<IPatientListProps> = () => {
           </LoadingSectionStyled>
         )}
         {!patientsListLoading && patientsFiltered && (
-          <TableContainer component={Paper} style={{ marginTop: "40px" }}>
-            <Table>
-              <TableHead>
-                <TableRow style={{ fontWeight: "bold" }}>
-                  <TableCell></TableCell>
-                  <TableCell>
-                    <TableHeadCell>ID</TableHeadCell>
-                  </TableCell>
-                  <TableCell>
-                    <TableHeadCell
-                      active={sortByColumn === "first_name"}
-                      setSorting={setSorting}
-                      //sortByColumn={sortByColumn}
-                      sortByAs={sortByAs}
-                      valueKey={"first_name"}
-                    >
-                      First name
-                    </TableHeadCell>
-                  </TableCell>
-                  <TableCell>
-                    <TableHeadCell
-                      active={sortByColumn === "last_name"}
-                      setSorting={setSorting}
-                      //sortByColumn={sortByColumn}
-                      sortByAs={sortByAs}
-                      valueKey={"last_name"}
-                    >
-                      Last name
-                    </TableHeadCell>
-                  </TableCell>
-
-                  <TableCell>
-                    <TableHeadCell>Email</TableHeadCell>{" "}
-                  </TableCell>
-                  <TableCell>
-                    <TableHeadCell>Age</TableHeadCell>{" "}
-                  </TableCell>
-                  <TableCell>
-                    <TableHeadCell>Gender</TableHeadCell>{" "}
-                  </TableCell>
-                  <TableCell>
-                    <TableHeadCell>Option</TableHeadCell>{" "}
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {patientsFiltered?.map((patient) => (
-                  <TableRow key={patient.patient_id}>
-                    <TableCell>
-                      <AvatarImage
-                        style={{ backgroundImage: `url(${patient.avatar})` }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <HighLightText match={searchTextHighLight}>
-                        {patient.patient_id.toString()}
-                      </HighLightText>
-                    </TableCell>
-                    <TableCell>
-                      <HighLightText match={searchTextHighLight}>
-                        {patient.first_name}
-                      </HighLightText>
-                    </TableCell>
-                    <TableCell>
-                      <HighLightText match={searchTextHighLight}>
-                        {patient.last_name}
-                      </HighLightText>
-                    </TableCell>
-                    <TableCell>
-                      <HighLightText match={searchTextHighLight}>
-                        {patient.email}
-                      </HighLightText>
-                    </TableCell>
-                    <TableCell>
-                      <HighLightText match={searchTextHighLight}>
-                        {patient.age.toString()}
-                      </HighLightText>
-                    </TableCell>
-                    <TableCell>
-                      <HighLightText>{patient.gender}</HighLightText>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        style={{ marginLeft: "10px" }}
-                        variant="text"
-                        color="primary"
-                        size="medium"
-                        onClick={() => {
-                          navigate(`/patients/${patient.patient_id}`);
-                        }}
-                      >
-                        <VisibilityIcon />{" "}
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            {patientsFiltered.length === 0 && (
-              <>
-                {console.log(" Displaying no records found")}
-                <Typography
-                  style={{
-                    textAlign: "center",
-                    padding: "20px",
-                  }}
-                  variant="h6"
-                >
-                  {"  "}
-                  No Patient(s) found.
-                </Typography>
-              </>
-            )}
-          </TableContainer>
+          <PatientTable
+            patientList={patientsFilteredSorted ? patientsFilteredSorted : []}
+            searchTextHighLight={searchTextHighLight}
+          />
         )}
       </>
     </>
   );
 };
-
-const AvatarImage = styled.div`
-  background: url() 50% 50% no-repeat;
-  background-size: cover;
-  border-radius: 25%;
-  width: 30px;
-  height: 30px;
-
-  .square span {
-    display: block;
-    width: 30px;
-    height: 30px;
-  }
-`;
 
 const LoadingSectionStyled = styled.div``;
