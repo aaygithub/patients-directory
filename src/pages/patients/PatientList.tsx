@@ -44,6 +44,7 @@ export const PatientList: React.FC = () => {
   ) as IPatientDataContextType;
 
   const onFilterChange = () => {
+    console.log("inside filter change");
     const { searchText, ageRange, gender } = searchFilter;
     let filteredPatients: IPatient[] = patientsList ? [...patientsList] : [];
     if (!searchText && !ageRange && !gender) {
@@ -106,7 +107,6 @@ export const PatientList: React.FC = () => {
     setPatientsFilteredSorted(patientsArr);
   };
 
-  // Helper function for sorting the patient list w.r.t coloumn provided
   const sortbyPropertiesOf = <T extends object>(
     sortBy: sortArg<T>,
     sortAs?: TOrder
@@ -151,7 +151,6 @@ export const PatientList: React.FC = () => {
       <>
         {patientsListLoading && (
           <LoadingSectionStyled>
-            {/* loading table table placeholder */}
             <TableContainer component={Paper} style={{ marginTop: "40px" }}>
               <Table>
                 <TableHead>
@@ -200,9 +199,9 @@ export const PatientList: React.FC = () => {
             </TableContainer>
           </LoadingSectionStyled>
         )}
-        {!patientsListLoading && patientsFiltered && (
+        {!patientsListLoading && patientsFilteredSorted && (
           <PatientTable
-            patientList={patientsFilteredSorted ? patientsFilteredSorted : []}
+            patientList={patientsFilteredSorted}
             searchTextHighLight={searchTextHighLight}
           />
         )}

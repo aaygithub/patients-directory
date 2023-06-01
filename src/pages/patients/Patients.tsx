@@ -15,7 +15,7 @@ export const PatientsManager: React.FC = () => {
     PatientDataContext
   ) as IPatientDataContextType;
 
-  const { data, loading: loadingPatients } = usePatientsService();
+  const { data } = usePatientsService();
 
   useEffect(() => {
     data && !patientsList && updatePatientsList(data);
@@ -26,7 +26,7 @@ export const PatientsManager: React.FC = () => {
       <SearchFilterProvider>
         {!params.id && <PatientList />}
       </SearchFilterProvider>
-      <Outlet context={[params.id, loadingPatients]} />
+      <Outlet context={{ id: params.id }} />
     </>
   );
 };

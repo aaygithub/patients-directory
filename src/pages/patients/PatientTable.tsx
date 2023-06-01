@@ -26,28 +26,37 @@ interface IPatientTableProps {
   searchTextHighLight: string;
 }
 
-export const PatientTable: React.FC<IPatientTableProps> = ({
-  patientList,
-  searchTextHighLight,
-}) => {
+export const PatientTable: React.FC<IPatientTableProps> = ({ patientList }) => {
   const { columnSort, updateColumnSort, searchFilter } = React.useContext(
     SearchFilterContext
   ) as ISearchFilterContextType;
 
   const setSorting = (sortBy: string, sortAs: TOrder) => {
+    console.log(sortBy, sortAs);
     updateColumnSort({ sortBy, sortAs });
   };
 
   const navigate = useNavigate();
 
   return (
-    <TableContainer component={Paper} style={{ marginTop: "40px" }}>
+    <TableContainer
+      component={Paper}
+      style={{ marginTop: "40px" }}
+      data-testid="patient-table-wrapper"
+    >
       <Table>
         <TableHead>
           <TableRow style={{ fontWeight: "bold" }}>
             <TableCell></TableCell>
             <TableCell>
-              <TableHeadCell>ID</TableHeadCell>
+              <TableHeadCell
+                active={columnSort.sortBy === "patient_id"}
+                setSorting={setSorting}
+                sortByAs={columnSort.sortAs}
+                valueKey={"patient_id"}
+              >
+                ID
+              </TableHeadCell>
             </TableCell>
             <TableCell>
               <TableHeadCell
@@ -63,7 +72,6 @@ export const PatientTable: React.FC<IPatientTableProps> = ({
               <TableHeadCell
                 active={columnSort.sortBy === "last_name"}
                 setSorting={setSorting}
-                //sortByColumn={columnSort.SortBy}
                 sortByAs={columnSort.sortAs}
                 valueKey={"last_name"}
               >
@@ -86,8 +94,11 @@ export const PatientTable: React.FC<IPatientTableProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {patientList?.map((patient) => (
-            <TableRow key={patient.patient_id}>
+          {patientList?.map((patient, index) => (
+            <TableRow
+              key={patient.patient_id}
+              data-testid={`table-row-${index}`}
+            >
               <TableCell>
                 <AvatarImage
                   style={{ backgroundImage: `url(${patient.avatar})` }}
@@ -156,7 +167,7 @@ export const PatientTable: React.FC<IPatientTableProps> = ({
   );
 };
 
-const AvatarImage = styled.div`
+export const AvatarImage = styled.div`
   background: url() 50% 50% no-repeat;
   background-size: cover;
   border-radius: 25%;

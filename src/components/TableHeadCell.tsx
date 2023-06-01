@@ -30,6 +30,7 @@ export const TableHeadCell: React.FC<ITableHeadCell> = ({
             !active || !sortByAs || sortByAs === "des" ? "asc" : "des"
           );
         }}
+        data-testid={`table-header-${valueKey}`}
       >
         <span>
           {children}

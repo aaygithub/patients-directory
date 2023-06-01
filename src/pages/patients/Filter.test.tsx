@@ -3,6 +3,7 @@ import {
   fireEvent,
   render,
   screen,
+  waitFor,
   within,
 } from "@testing-library/react";
 import React from "react";
@@ -95,7 +96,23 @@ describe("Filter component", () => {
     expect(screen.getByTestId("search-gender-select")).toBeInTheDocument();
   });
 
-  it("should call onFilterChange when filled search input , age select and gender select", () => {
+  it("should have correct options for Age Select and handle change", () => {
+    const mockOnFilterChange = jest.fn();
+
+    render(<Component mockFn={mockOnFilterChange} />);
+
+    const ageOptions = ageSelectSetup();
+
+    fireEvent.click(ageOptions[1]);
+
+    expect(mockOnFilterChange).toHaveBeenCalledWith({
+      ageRange: "18 - 30",
+      gender: "",
+      searchText: "",
+    });
+  });
+
+  it("should call onFilterChange when filled search input , age select and gender select", async () => {
     const mockOnFilterChange = jest.fn();
 
     render(<Component mockFn={mockOnFilterChange} />);
@@ -127,12 +144,12 @@ describe("Filter component", () => {
       { target: { value: "John" } }
     );
 
-    setTimeout(async () => {
+    await waitFor(() => {
       expect(mockOnFilterChange).toHaveBeenCalledWith({
         ageRange: "31 - 45",
         gender: "Female",
         searchText: "John",
       });
-    }, 2000);
+    });
   });
 });
