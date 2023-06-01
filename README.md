@@ -1,3 +1,12 @@
+# Live Demo
+
+### url: https://patient-directory.herokuapp.com/patients
+
+Stack
+frontend: react
+backend: nodejs  
+platform: heroku
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
