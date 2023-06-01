@@ -19,6 +19,7 @@ FRONTEND stack:
 - Unit testing with testing-library react and jest
 
 Solution:
+
 Make Patient directory, user can search, filter and sort for better view of expected results.
 User can view details of patient and choose to delete.
 
@@ -28,14 +29,16 @@ rest all functions are performed at client side (Filters sorting and details are
 Search filter applied is persistent when navigating between components and routes. 
 view and deleted happens from the main list fetch at the load of the web page.
 
-Some key demonstrated with the assignment:
+
+Some key skill demonstrated with the assignment:
 - React/Typescript application setup.
 - Client slide routing with nested routes.
 - Writing custom Hooks. Sharing data with ContextAPI.
 - Unit testing coverage with  testing-library react / jest.
 - Git/Github and deployment to cloud
 
-Enhancement: 
+
+Scoop for further enhancements: 
 - Redux store, if more data is needed to store centrally and made available through application.
 - unit test coverage should be increased to minimum 80%.
 - client-side pagination for table view.
