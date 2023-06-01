@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+// starting component for the route /patients and /patients
 
+import React, { useEffect } from "react";
 import { IPatientDataContextType } from "../../common/interfaces";
 import { Outlet, useParams } from "react-router-dom";
 import { PatientDataContext } from "../../context/patientDataContext";
@@ -7,18 +8,14 @@ import { PatientList } from "./PatientList";
 import { usePatientsService } from "../../hooks/api/patientsService.hook";
 import SearchFilterProvider from "../../context/searchFilterContext";
 
-interface IPatientsManagerProps {
-  // no props are sent.
-}
-
-export const PatientsManager: React.FC<IPatientsManagerProps> = () => {
+export const PatientsManager: React.FC = () => {
   let params = useParams();
 
   const { updatePatientsList, patientsList } = React.useContext(
     PatientDataContext
   ) as IPatientDataContextType;
 
-  const { data, loading: loadingPatients } = usePatientsService();
+  const { data } = usePatientsService();
 
   useEffect(() => {
     data && !patientsList && updatePatientsList(data);
@@ -29,7 +26,7 @@ export const PatientsManager: React.FC<IPatientsManagerProps> = () => {
       <SearchFilterProvider>
         {!params.id && <PatientList />}
       </SearchFilterProvider>
-      <Outlet context={[params.id, loadingPatients]} />
+      <Outlet context={{ id: params.id }} />
     </>
   );
 };

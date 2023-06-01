@@ -12,7 +12,7 @@ export const usePatientData = (): IUsePatientDataReturn => {
     React.useContext(PatientDataContext) as IPatientDataContextType;
 
   const getPatient = (id: string) => {
-    let patientId = parseInt(id);
+    let patientId = Number(id);
     let patientData: IPatient[] | undefined;
     if (!isNaN(patientId) && !patientsListLoading) {
       patientData = patientsList?.filter((item: IPatient) => {
@@ -31,7 +31,6 @@ export const usePatientData = (): IUsePatientDataReturn => {
         patientsArr.findIndex((element) => element.patient_id === patientId),
         1
       );
-      console.log("deletePatient :::: ", patientsArr);
       updatePatientsList(patientsArr);
       callback && callback();
     }

@@ -1,3 +1,6 @@
+// usePatientsService is the hook that will fetch the list of all patients
+// Only fetch once when app is loaded
+
 import { useState, useEffect } from "react";
 import { IPatient } from "../../common/interfaces";
 
@@ -20,9 +23,7 @@ export const usePatientsService = (): IPatientsService => {
     setLoading(true);
     try {
       const apiResponse = await fetch(`/patients`);
-
       const json = await apiResponse.json();
-      console.log(apiResponse);
       setStatus(apiResponse.status);
       setStatusText(apiResponse.statusText);
       setData(json as unknown as IPatient[]);

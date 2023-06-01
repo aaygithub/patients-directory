@@ -23,10 +23,11 @@ const App: React.FC = () => {
           </AppBarStyled>
           <Container>
             <Routes>
-              {/* <Route path="/" element={<Home />}></Route> */}
+              {/* Set up nested routes */}
               <Route path="patients" element={<PatientsManager />}>
                 <Route path=":id" element={<PatientDetails />}></Route>
               </Route>
+              {/* rest all the url get should to redirect to /patients as entry point of app */}
               {<Route path="*" element={<Navigate to="/patients" replace />} />}
             </Routes>
           </Container>

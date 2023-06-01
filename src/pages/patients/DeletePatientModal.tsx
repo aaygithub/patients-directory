@@ -31,6 +31,7 @@ export const DeletePatientModal: React.FC<DeletePatientModalProps> = ({
       sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 435 } }}
       maxWidth="xs"
       open={true}
+      data-testid="delete-modal-wrapper"
     >
       <DialogTitle>Delete Patient Details Confirmation</DialogTitle>
       <DialogContent dividers>
@@ -39,7 +40,7 @@ export const DeletePatientModal: React.FC<DeletePatientModalProps> = ({
           <strong>
             {patientData.first_name} {patientData.last_name}
           </strong>{" "}
-          <div>{`(email id: ${patientData.email})`}</div>
+          <div data-testid="delete-modal-email-id-message">{`(email id: ${patientData.email})`}</div>
         </Alert>
       </DialogContent>
       <DialogActions>
