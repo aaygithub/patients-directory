@@ -3,7 +3,7 @@ import React from "react";
 import * as rrd from "react-router-dom";
 import { IPatient } from "../../common/interfaces";
 import { PatientDataContext } from "../../context/patientDataContext";
-import { PatientDetails } from "./Patient";
+import { PatientDetails } from "./PatientDetails";
 
 const Component = () => {
   const [patientData, setPatientData] = React.useState<IPatient | undefined>({

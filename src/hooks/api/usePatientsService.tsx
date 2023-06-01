@@ -1,5 +1,5 @@
-// usePatientsService is the hook that will fetch the list of all patients
-// Only fetch once when app is loaded
+// usePatientsService is the hook that will be fetching the list of all patients
+// Only fetch once when app is loaded, and reloading. all data are provieded via context.
 
 import { useState, useEffect } from "react";
 import { IPatient } from "../../common/interfaces";

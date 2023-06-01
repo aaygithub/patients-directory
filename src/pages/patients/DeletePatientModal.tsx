@@ -37,9 +37,12 @@ export const DeletePatientModal: React.FC<DeletePatientModalProps> = ({
       <DialogContent dividers>
         <Alert severity="warning">
           <AlertTitle>Are you sure, you want delete details of?</AlertTitle>
-          <strong>
-            {patientData.first_name} {patientData.last_name}
-          </strong>{" "}
+          <strong>User ID: {patientData.patient_id}</strong>
+          <div>
+            <strong>
+              {patientData.first_name} {patientData.last_name}
+            </strong>
+          </div>
           <div data-testid="delete-modal-email-id-message">{`(email id: ${patientData.email})`}</div>
         </Alert>
       </DialogContent>

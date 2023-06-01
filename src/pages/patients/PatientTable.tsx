@@ -14,9 +14,13 @@ import styled from "@emotion/styled";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-import { IPatient, ISearchFilterContextType } from "../../common/interfaces";
+import {
+  IPatient,
+  ISearchFilterContextType,
+  TOrder,
+} from "../../common/interfaces";
 import { HighLightText } from "../../components/HighLightText";
-import { TableHeadCell, TOrder } from "../../components/TableHeadCell";
+import { TableHeadCell } from "../../components/TableHeadCell";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { SearchFilterContext } from "../../context/searchFilterContext";
@@ -32,7 +36,6 @@ export const PatientTable: React.FC<IPatientTableProps> = ({ patientList }) => {
   ) as ISearchFilterContextType;
 
   const setSorting = (sortBy: string, sortAs: TOrder) => {
-    console.log(sortBy, sortAs);
     updateColumnSort({ sortBy, sortAs });
   };
 

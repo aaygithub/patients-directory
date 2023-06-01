@@ -1,3 +1,6 @@
+// Demonstation for custom hook for picking the selected patients data
+// this is hook that use context from PatientDataContext
+
 import React from "react";
 import { IPatient, IPatientDataContextType } from "../../common/interfaces";
 import { PatientDataContext } from "../../context/patientDataContext";

@@ -5,7 +5,7 @@ import { IPatientDataContextType } from "../../common/interfaces";
 import { Outlet, useParams } from "react-router-dom";
 import { PatientDataContext } from "../../context/patientDataContext";
 import { PatientList } from "./PatientList";
-import { usePatientsService } from "../../hooks/api/patientsService.hook";
+import { usePatientsService } from "../../hooks/api/usePatientsService";
 import SearchFilterProvider from "../../context/searchFilterContext";
 
 export const PatientsManager: React.FC = () => {
