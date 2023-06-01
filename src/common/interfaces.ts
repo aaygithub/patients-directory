@@ -1,16 +1,16 @@
-import { TOrder } from "../components/TableHeadCell";
+// common interfaces files for application wide usage
 
 export interface IPatient {
   patient_id: number;
   first_name: string;
   last_name: string;
   email: string;
-  gender: gender;
+  gender: TGender;
   age: number;
   avatar: string;
 }
 
-export type gender = "Male" | "Female";
+export type TGender = "Male" | "Female";
 
 export interface IPatientDataContextType {
   patientsListLoading: boolean;
@@ -32,6 +32,8 @@ export interface ISearchFilterContextType {
   columnSort: IColumnSort;
   updateColumnSort: (columnSort: IColumnSort) => void;
 }
+
+export type TOrder = "asc" | "des";
 
 export interface IColumnSort {
   sortBy?: string;

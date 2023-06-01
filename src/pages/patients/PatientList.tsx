@@ -18,13 +18,13 @@ import {
   IPatient,
   IPatientDataContextType,
   ISearchFilterContextType,
+  TOrder,
 } from "../../common/interfaces";
 import { Filter } from "./Filter";
 import { PatientDataContext } from "../../context/patientDataContext";
 import React from "react";
 import { SearchFilterContext } from "../../context/searchFilterContext";
 import { PatientTable } from "./PatientTable";
-import { TOrder } from "../../components/TableHeadCell";
 
 type sortArg<T> = keyof T;
 
@@ -44,7 +44,6 @@ export const PatientList: React.FC = () => {
   ) as IPatientDataContextType;
 
   const onFilterChange = () => {
-    console.log("inside filter change");
     const { searchText, ageRange, gender } = searchFilter;
     let filteredPatients: IPatient[] = patientsList ? [...patientsList] : [];
     if (!searchText && !ageRange && !gender) {
@@ -107,6 +106,11 @@ export const PatientList: React.FC = () => {
     setPatientsFilteredSorted(patientsArr);
   };
 
+  /*
+    a helper sortbyPropertiesOf() for sorting the patient list. 
+    the column is passed as (sortBy)formDataKey for one keys of IPatient object
+    sortAs is oprion or order one of TOrder = "asc" | "des"
+  */
   const sortbyPropertiesOf = <T extends object>(
     sortBy: sortArg<T>,
     sortAs?: TOrder

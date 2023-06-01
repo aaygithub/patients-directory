@@ -17,7 +17,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { IPatient, IPatientDataContextType } from "../../common/interfaces";
 import { PatientDataContext } from "../../context/patientDataContext";
-import { usePatientData } from "../../hooks/common/patientData.hook";
+import { usePatientData } from "../../hooks/common/usePatientData";
 import { DeletePatientModal } from "./DeletePatientModal";
 import { AvatarImage } from "./PatientTable";
 

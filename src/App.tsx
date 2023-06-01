@@ -5,7 +5,7 @@ import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
 import { AppBar, Container, Toolbar, Typography } from "@mui/material";
 
 import { PatientsManager } from "./pages/patients/Patients";
-import { PatientDetails } from "./pages/patients/Patient";
+import { PatientDetails } from "./pages/patients/PatientDetails";
 import PatientDataProvider from "./context/patientDataContext";
 import styled from "@emotion/styled";
 

@@ -1,3 +1,5 @@
+// SearchFilterContext to store the filer selectiona values and sorting column indentity
+
 import * as React from "react";
 import {
   IColumnSort,

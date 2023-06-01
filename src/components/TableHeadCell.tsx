@@ -1,9 +1,11 @@
+// table head cell component: send callback actions for sorting.
+// And displaing the active sorted column
+
 import SyncAltIcon from "@mui/icons-material/SyncAlt";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import SouthOutlinedIcon from "@mui/icons-material/SouthOutlined";
 import styled from "@emotion/styled";
-
-export type TOrder = "asc" | "des";
+import { TOrder } from "../common/interfaces";
 
 export interface ITableHeadCell {
   active?: boolean;

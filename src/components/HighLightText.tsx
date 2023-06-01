@@ -1,3 +1,4 @@
+// component to highlight the part with matches the serachtext
 import styled from "@emotion/styled";
 
 interface IHighLightText {
@@ -9,6 +10,12 @@ export const HighLightText: React.FC<IHighLightText> = ({
   match,
   children,
 }) => {
+  /*
+  // Case sensitive string match,
+  // spiting the string (reveived in ´children´) w.r.t
+  // placing the matched part of string in the HighLightStyled styled component.
+  // return and rendering the as childrenElementArr as parts in separate span
+  */
   if (match && match !== "" && children.includes(match)) {
     let childrenSplitArr: string[] = children.split(match);
     let childrenElementArr: JSX.Element[] = [];

@@ -1,3 +1,6 @@
+// PatientDataContext to store the all the patients data, and selected pataient data
+// store all patients so not have to fectch when come back from patients details
+
 import * as React from "react";
 import { IPatient, IPatientDataContextType } from "../common/interfaces";
 
