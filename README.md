@@ -1,13 +1,70 @@
 # Live Demo
 
-### url: https://patient-directory.herokuapp.com/patients
+### url: https://patient-directory.herokuapp.com
 
 Stack
 frontend: react
 backend: nodejs  
 platform: heroku
 
-# Getting Started with Create React App
+# Assignment brief
+
+FRONTEND stack:
+- Typescript/Javascript
+- Reactjs with Hooks and ContextAPI
+- Client-side routing https://reactrouter.com/
+- Material Libray (https://mui.com/material-ui/getting-started/overview/)
+- Api mocking (json-server / Mock Service Working-msw)
+- CSS with styled-components (https://styled-components.com/)
+- Unit testing with testing-library react and jest
+
+Solution:
+Make Patient directory, user can search, filter and sort for better view of expected results.
+User can view details of patient and choose to delete.
+
+Understanding of working flow was that the entire list is at the first page (Patient listing page) 
+rest all functions are performed at client side (Filters sorting and details are picked form client-side list). 
+
+Search filter applied is persistent when navigating between components and routes. 
+view and deleted happens from the main list fetch at the load of the web page.
+
+Some key demonstrated with the assignment:
+- React/Typescript application setup.
+- Client slide routing with nested routes.
+- Writing custom Hooks. Sharing data with ContextAPI.
+- Unit testing coverage with  testing-library react / jest.
+- Git/Github and deployment to cloud
+
+Enhancement: 
+- Redux store, if more data is needed to store centrally and made available through application.
+- unit test coverage should be increased to minimum 80%.
+- client-side pagination for table view.
+- E2E test setup with Cypress.
+- Improvement is accessibility  aspect for UX  
+
+
+
+# Run this project
+
+- clone the repository or download .zip file 
+- Open treminal : traverse in the project folder 
+- `npm install`  install all the required dependencies
+- `npm start` to start the project
+- `npm test` to start the project
+- Also with yarn package manager project will run.
+- Only recommend stable version of nodes and npm
+
+
+
+### Live Demo
+
+### url: https://patient-directory.herokuapp.com
+
+
+Please continue reading for more information about project
+
+
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
