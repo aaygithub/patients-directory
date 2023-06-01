@@ -38,7 +38,6 @@ export const PatientTable: React.FC<IPatientTableProps> = ({
     updateColumnSort({ sortBy, sortAs });
   };
 
-  console.log("columnSort :: ", columnSort);
   const navigate = useNavigate();
 
   return (
@@ -141,7 +140,6 @@ export const PatientTable: React.FC<IPatientTableProps> = ({
       </Table>
       {patientList.length === 0 && (
         <>
-          {console.log(" Displaying no records found")}
           <Typography
             style={{
               textAlign: "center",

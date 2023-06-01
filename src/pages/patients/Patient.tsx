@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -10,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -27,32 +29,37 @@ export const PatientDetails = () => {
   const { getPatient, deletePatient } = usePatientData();
 
   const [patientData, setPatientData] = useState<IPatient>();
+
+  const [patientDataNotFound, setPatientDataNotFound] =
+    useState<boolean>(false);
   const [showPatientDeleteModal, setShowPatientDeleteModal] =
     useState<boolean>(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("called useEffect for getPatient(id)");
     let patientWithId = getPatient(id);
     if (patientWithId && patientWithId.length > 0)
       setPatientData(patientWithId[0]);
+    else if (!patientsListLoading && !patientWithId) {
+      setPatientDataNotFound(true);
+    }
   }, [patientsListLoading]);
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid item xs={12} sm container spacing={4}>
-          <IconButton
-            aria-label="back-to-patientList"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowBackIcon />
-          </IconButton>
-        </Grid>
-        <Card variant="outlined">
+      <Grid item xs={12} sm container spacing={4}>
+        <IconButton
+          aria-label="back-to-patientList"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowBackIcon />
+        </IconButton>
+      </Grid>
+      {!patientsListLoading && (
+        <Box sx={{ flexGrow: 1 }}>
           {patientData && (
-            <>
+            <Card variant="outlined">
               <CardContent>
                 <Grid container spacing={2}>
                   <Grid item>
@@ -120,7 +127,7 @@ export const PatientDetails = () => {
                   alignItems="flex-end"
                 >
                   <Button
-                    size="small"
+                    variant="contained"
                     onClick={() => {
                       setShowPatientDeleteModal(true);
                     }}
@@ -129,10 +136,40 @@ export const PatientDetails = () => {
                   </Button>
                 </Box>
               </CardActions>
-            </>
+            </Card>
           )}
-        </Card>
-      </Box>
+        </Box>
+      )}
+      {patientsListLoading && (
+        <DisplayCenter>
+          <div>
+            <CircularProgress color="secondary" />
+          </div>
+          <div>
+            <Typography variant="caption" gutterBottom>
+              Loading details
+            </Typography>
+          </div>
+        </DisplayCenter>
+      )}
+      {!patientsListLoading && patientDataNotFound && (
+        <Alert
+          severity="error"
+          action={
+            <Button
+              color="inherit"
+              size="small"
+              onClick={() => {
+                navigate("/patients");
+              }}
+            >
+              Search for patients
+            </Button>
+          }
+        >
+          No Patient found
+        </Alert>
+      )}
 
       {showPatientDeleteModal && patientData && (
         <DeletePatientModal
@@ -157,5 +194,13 @@ const Img = styled("img")({
   maxWidth: "100%",
   maxHeight: "100%",
 });
+
+const DisplayCenter = styled.div`
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const DataHolder = styled.div``;

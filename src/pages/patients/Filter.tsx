@@ -1,5 +1,7 @@
+// Component to render filter in input and update searchFilter context on change
 import styled from "@emotion/styled";
 import {
+  debounce,
   FormControl,
   InputAdornment,
   InputLabel,
@@ -11,19 +13,33 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { ISearchFilterContextType } from "../../common/interfaces";
 import { SearchFilterContext } from "../../context/searchFilterContext";
-import React from "react";
+import React, { ChangeEventHandler, useEffect, useState } from "react";
 
-export interface IFilterProps {}
-
-export const Filter: React.FC<IFilterProps> = () => {
+export const Filter: React.FC = () => {
   const { searchFilter, updateSearchFilter } = React.useContext(
     SearchFilterContext
   ) as ISearchFilterContextType;
+
+  const [searchText, setSearchText] = useState<string | undefined>(
+    searchFilter.searchText
+  );
+
+  const onChangeSearchText: ChangeEventHandler<HTMLInputElement> = (e) => {
+    filterChangeHandler("searchText", e.target.value);
+    setSearchText(undefined);
+    /*
+    // local state value of searchText is only needed once to display the past search when back from patient details.
+    // set to undefined to not conflict the working of debounce, because debouce managing the onChangeSearchText call after mentioned miliseconds. 
+    */
+  };
+  const debouncedOnChange = debounce(onChangeSearchText, 500);
 
   const filterChangeHandler = (field: string, value: string) => {
     const updatedFilter = { ...searchFilter, [field]: value };
     updateSearchFilter(updatedFilter);
   };
+
+  useEffect(() => {}, []);
 
   return (
     <div style={{ marginTop: "30px" }}>
@@ -32,19 +48,19 @@ export const Filter: React.FC<IFilterProps> = () => {
         <OutlinedInput
           id="text-search-input"
           type={"text"}
-          value={searchFilter?.searchText ?? ""}
           placeholder="Start typing..."
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            filterChangeHandler("searchText", event.target.value);
-          }}
+          onChange={debouncedOnChange}
+          {...(searchText ? { value: searchText } : {})}
           endAdornment={
             <InputAdornment position="end">
               <SearchIcon />
             </InputAdornment>
           }
           label="Search"
+          data-testid="search-text-input"
         />
-        <InputInfoStyled>*Search text is case sensitive.</InputInfoStyled>
+        <InputInfoStyled>*Search is text not is case sensitive</InputInfoStyled>
+        <InputInfoStyled>*Case sensitive match is highlighted</InputInfoStyled>
       </FormControl>
 
       <FormControl sx={{ m: 1, width: "25ch" }}>
@@ -59,6 +75,7 @@ export const Filter: React.FC<IFilterProps> = () => {
           onChange={(event) => {
             filterChangeHandler("ageRange", event.target.value);
           }}
+          data-testid="search-age-select"
         >
           <MenuItem value={""}>Select</MenuItem>
           <MenuItem value={"18 - 30"}>18 - 30</MenuItem>
@@ -78,6 +95,7 @@ export const Filter: React.FC<IFilterProps> = () => {
           onChange={(event) => {
             filterChangeHandler("gender", event.target.value);
           }}
+          data-testid="search-gender-select"
         >
           <MenuItem value="">Select</MenuItem>
           <MenuItem value={"Male"}>Male</MenuItem>

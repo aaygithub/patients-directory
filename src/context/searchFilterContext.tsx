@@ -23,7 +23,6 @@ const SearchFilterProvider = ({ children }: ISearchFilterProviderProps) => {
     setColumnSort({ ...columnSort, ...updatedColumnSort });
   };
 
-  console.log("searchFilter :: ", searchFilter);
   return (
     <SearchFilterContext.Provider
       value={{

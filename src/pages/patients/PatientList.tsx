@@ -1,3 +1,5 @@
+// Component to render the search filters and table lising the patients
+
 import {
   Paper,
   Skeleton,
@@ -24,11 +26,9 @@ import { SearchFilterContext } from "../../context/searchFilterContext";
 import { PatientTable } from "./PatientTable";
 import { TOrder } from "../../components/TableHeadCell";
 
-interface IPatientListProps {}
-
 type sortArg<T> = keyof T;
 
-export const PatientList: React.FC<IPatientListProps> = () => {
+export const PatientList: React.FC = () => {
   const [patientsFiltered, setPatientsFiltered] = useState<IPatient[]>();
   const [patientsFilteredSorted, setPatientsFilteredSorted] =
     useState<IPatient[]>();
@@ -44,7 +44,6 @@ export const PatientList: React.FC<IPatientListProps> = () => {
   ) as IPatientDataContextType;
 
   const onFilterChange = () => {
-    console.log("inside filter change");
     const { searchText, ageRange, gender } = searchFilter;
     let filteredPatients: IPatient[] = patientsList ? [...patientsList] : [];
     if (!searchText && !ageRange && !gender) {
@@ -54,11 +53,17 @@ export const PatientList: React.FC<IPatientListProps> = () => {
       filteredPatients = filteredPatients.filter((patientItem) => {
         return (
           patientItem.patient_id +
+          " " +
           patientItem.first_name +
+          " " +
           patientItem.last_name +
+          " " +
           patientItem.email +
+          " " +
           patientItem.age
-        ).includes(searchText);
+        )
+          .toLocaleLowerCase()
+          .includes(searchText.toLocaleLowerCase());
       });
       setSearchTextHighLight(searchText);
     }
@@ -101,6 +106,7 @@ export const PatientList: React.FC<IPatientListProps> = () => {
     setPatientsFilteredSorted(patientsArr);
   };
 
+  // Helper function for sorting the patient list w.r.t coloumn provided
   const sortbyPropertiesOf = <T extends object>(
     sortBy: sortArg<T>,
     sortAs?: TOrder
@@ -132,7 +138,6 @@ export const PatientList: React.FC<IPatientListProps> = () => {
   }, [patientsList]);
 
   useEffect(() => {
-    console.log("getFilter change ::: st start on back");
     onFilterChange();
   }, [searchFilter]);
 
@@ -146,6 +151,7 @@ export const PatientList: React.FC<IPatientListProps> = () => {
       <>
         {patientsListLoading && (
           <LoadingSectionStyled>
+            {/* loading table table placeholder */}
             <TableContainer component={Paper} style={{ marginTop: "40px" }}>
               <Table>
                 <TableHead>
